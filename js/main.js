@@ -83,9 +83,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', resizeMatrix);
     const codeLines = [...siteLoader.querySelectorAll('.site-loader-code > div')];
     const wait = (duration) => new Promise((resolve) => window.setTimeout(resolve, duration));
-    const characterDelay = 18;
-    const linePause = 60;
-    const typingStartDelay = 350;
+    const characterDelay = 12;
+    const linePause = 45;
+    const typingStartDelay = 200;
 
     const typeNode = async (sourceNode, targetNode) => {
       if (sourceNode.nodeType === Node.TEXT_NODE) {
@@ -127,11 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const typingPromise = typeCode();
     let loaderDismissed = false;
-    const dismissSiteLoader = async () => {
+    const dismissSiteLoader = () => {
       if (loaderDismissed) return;
       loaderDismissed = true;
 
-      await typingPromise;
       siteLoader.classList.add('is-done');
       window.setTimeout(() => {
         siteLoader.remove();
@@ -140,8 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }, prefersReducedMotion ? 0 : 320);
     };
 
-    typingPromise.then(dismissSiteLoader);
-    window.setTimeout(dismissSiteLoader, 4000);
+    typingPromise.then(dismissSiteLoader).catch(dismissSiteLoader);
+    window.setTimeout(dismissSiteLoader, 3200);
   }
 
   if (supportsCustomCursor && cursorZone) {
